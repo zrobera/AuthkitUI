@@ -1,41 +1,42 @@
-"use client"
+"use client";
 
-import type { SocialProvider } from "auth-kit/social-providers"
-import { type ReactNode, createContext, useMemo } from "react"
-import { toast } from "sonner"
+import type { SocialProvider } from "better-auth/social-providers";
+import { type ReactNode, createContext, useMemo } from "react";
+import { toast } from "sonner";
 
-import { useAuthData } from "../hooks/use-auth-data"
-import type { AdditionalFields } from "../types/additional-fields"
-import type { AnyAuthClient } from "../types/any-auth-client"
-import type { AuthClient } from "../types/auth-client"
-import type { AuthHooks } from "../types/auth-hooks"
-import type { AuthMutators } from "../types/auth-mutators"
-import type { Link } from "../types/link"
-import type { RenderToast } from "../types/render-toast"
-import { type AuthViewPaths, authViewPaths } from "./auth-view-paths"
-import type { Provider } from "./social-providers"
+import { useAuthData } from "../hooks/use-auth-data";
+import type { AdditionalFields } from "../types/additional-fields";
+import type { AnyAuthClient } from "../types/any-auth-client";
+import type { AuthClient } from "../types/auth-client";
+import type { AuthHooks } from "../types/auth-hooks";
+import type { AuthMutators } from "../types/auth-mutators";
+import type { Link } from "../types/link";
+import type { RenderToast } from "../types/render-toast";
+import { type AuthViewPaths, authViewPaths } from "./auth-view-paths";
+import type { Provider } from "./social-providers";
+import { AuthLocalization } from "./auth-localization";
 
 const DefaultLink: Link = ({ href, className, children }) => (
-    <a className={className} href={href}>
-        {children}
-    </a>
-)
+  <a className={className} href={href}>
+    {children}
+  </a>
+);
 
 const defaultNavigate = (href: string) => {
-    window.location.href = href
-}
+  window.location.href = href;
+};
 
 const defaultReplace = (href: string) => {
-    window.location.replace(href)
-}
+  window.location.replace(href);
+};
 
 const defaultToast: RenderToast = ({ variant = "default", message }) => {
-    if (variant === "default") {
-        toast(message)
-    } else {
-        toast[variant](message)
-    }
-}
+  if (variant === "default") {
+    toast(message);
+  } else {
+    toast[variant](message);
+  }
+};
 
 export type AuthUIContextType = {
     authClient: AnyAuthClient
@@ -199,143 +200,150 @@ export type AuthUIContextType = {
 }
 
 export type AuthUIProviderProps = {
-    children: ReactNode
-    /**
-     * Better Auth client returned from createAuthClient
-     * @default Required
-     * @remarks `AuthClient`
-     */
-    authClient: AnyAuthClient
-    /**
-     * ADVANCED: Custom hooks for fetching auth data
-     */
-    hooks?: Partial<AuthHooks>
-    /**
-     * Customize the paths for the auth views
-     * @default authViewPaths
-     * @remarks `AuthViewPaths`
-     */
-    viewPaths?: Partial<AuthViewPaths>
-    /**
-     * Render custom Toasts
-     * @default Sonner
-     */
-    toast?: RenderToast
-    /**
-     * ADVANCED: Custom mutators for updating auth data
-     */
-    mutators?: Partial<AuthMutators>
-} & Partial<Omit<AuthUIContextType, "viewPaths" | "localization" | "mutators" | "toast" | "hooks">>
+  children: ReactNode;
+  /**
+   * Better Auth client returned from createAuthClient
+   * @default Required
+   * @remarks `AuthClient`
+   */
+  authClient: AnyAuthClient;
+  /**
+   * ADVANCED: Custom hooks for fetching auth data
+   */
+  hooks?: Partial<AuthHooks>;
+  /**
+   * Customize the paths for the auth views
+   * @default authViewPaths
+   * @remarks `AuthViewPaths`
+   */
+  viewPaths?: Partial<AuthViewPaths>;
+  /**
+   * Render custom Toasts
+   * @default Sonner
+   */
+  toast?: RenderToast;
+  /**
+   * ADVANCED: Custom mutators for updating auth data
+   */
+  mutators?: Partial<AuthMutators>;
+} & Partial<
+  Omit<
+    AuthUIContextType,
+    "viewPaths" | "localization" | "mutators" | "toast" | "hooks"
+  >
+>;
 
-export const AuthUIContext = createContext<AuthUIContextType>({} as unknown as AuthUIContextType)
+export const AuthUIContext = createContext<AuthUIContextType>(
+  {} as unknown as AuthUIContextType
+);
 
 export const AuthUIProvider = ({
-    children,
-    authClient,
-    avatarExtension = "png",
-    avatarSize,
-    basePath = "/auth",
-    baseURL = "",
-    redirectTo = "/",
-    credentials = true,
-    changeEmail = true,
-    forgotPassword = true,
-    freshAge = 60 * 60 * 24,
-    hooks: hooksProp,
-    mutators: mutatorsProp,
-    nameRequired = true,
-    settingsFields = ["name"],
-    signUp = true,
-    signUpFields = ["name"],
-    toast = defaultToast,
-    viewPaths: viewPathsProp,
-    navigate,
-    replace,
-    uploadAvatar,
-    Link = DefaultLink,
-    ...props
+  children,
+  authClient,
+  avatarExtension = "png",
+  avatarSize,
+  basePath = "/auth",
+  baseURL = "",
+  redirectTo = "/",
+  credentials = true,
+  changeEmail = true,
+  forgotPassword = true,
+  freshAge = 60 * 60 * 24,
+  hooks: hooksProp,
+  mutators: mutatorsProp,
+  nameRequired = true,
+  settingsFields = ["name"],
+  signUp = true,
+  signUpFields = ["name"],
+  toast = defaultToast,
+  viewPaths: viewPathsProp,
+  navigate,
+  replace,
+  uploadAvatar,
+  Link = DefaultLink,
+  ...props
 }: AuthUIProviderProps) => {
-    const defaultMutators = useMemo(() => {
-        return {
-            deletePasskey: (params) =>
-                (authClient as AuthClient).passkey.deletePasskey({
-                    ...params,
-                    fetchOptions: { throw: true }
-                }),
-            revokeSession: (params) =>
-                (authClient as AuthClient).revokeSession({
-                    ...params,
-                    fetchOptions: { throw: true }
-                }),
-            updateUser: (params) =>
-                authClient.updateUser({
-                    ...params,
-                    fetchOptions: { throw: true }
-                }),
-            unlinkAccount: (params) =>
-                authClient.unlinkAccount({
-                    ...params,
-                    fetchOptions: { throw: true }
-                })
-        } as AuthMutators
-    }, [authClient])
+  const defaultMutators = useMemo(() => {
+    return {
+      deletePasskey: (params) =>
+        (authClient as AuthClient).passkey.deletePasskey({
+          ...params,
+          fetchOptions: { throw: true },
+        }),
+      revokeSession: (params) =>
+        (authClient as AuthClient).revokeSession({
+          ...params,
+          fetchOptions: { throw: true },
+        }),
+      updateUser: (params) =>
+        authClient.updateUser({
+          ...params,
+          fetchOptions: { throw: true },
+        }),
+      unlinkAccount: (params) =>
+        authClient.unlinkAccount({
+          ...params,
+          fetchOptions: { throw: true },
+        }),
+    } as AuthMutators;
+  }, [authClient]);
 
-    const defaultHooks = useMemo(() => {
-        return {
-            useSession: (authClient as AuthClient).useSession,
-            useListAccounts: () => useAuthData({ queryFn: authClient.listAccounts }),
-            useListSessions: () => useAuthData({ queryFn: authClient.listSessions }),
-            useListPasskeys: (authClient as AuthClient).useListPasskeys
-        } as AuthHooks
-    }, [authClient])
+  const defaultHooks = useMemo(() => {
+    return {
+      useSession: (authClient as AuthClient).useSession,
+      useListAccounts: () => useAuthData({ queryFn: authClient.listAccounts }),
+      useListSessions: () => useAuthData({ queryFn: authClient.listSessions }),
+      useListPasskeys: (authClient as AuthClient).useListPasskeys,
+    } as AuthHooks;
+  }, [authClient]);
 
-    const viewPaths = useMemo(() => {
-        return { ...authViewPaths, ...viewPathsProp } as AuthViewPaths
-    }, [viewPathsProp])
+  const viewPaths = useMemo(() => {
+    return { ...authViewPaths, ...viewPathsProp } as AuthViewPaths;
+  }, [viewPathsProp]);
 
-    const hooks = useMemo(() => {
-        return { ...defaultHooks, ...hooksProp } as AuthHooks
-    }, [defaultHooks, hooksProp])
+  const hooks = useMemo(() => {
+    return { ...defaultHooks, ...hooksProp } as AuthHooks;
+  }, [defaultHooks, hooksProp]);
 
-    const mutators = useMemo(() => {
-        return { ...defaultMutators, ...mutatorsProp } as AuthMutators
-    }, [defaultMutators, mutatorsProp])
+  const mutators = useMemo(() => {
+    return { ...defaultMutators, ...mutatorsProp } as AuthMutators;
+  }, [defaultMutators, mutatorsProp]);
 
-    // Remove trailing slash from baseURL
-    baseURL = baseURL.endsWith("/") ? baseURL.slice(0, -1) : baseURL
+  // Remove trailing slash from baseURL
+  baseURL = baseURL.endsWith("/") ? baseURL.slice(0, -1) : baseURL;
 
-    // Remove trailing slash from basePath
-    basePath = basePath.endsWith("/") ? basePath.slice(0, -1) : basePath
+  // Remove trailing slash from basePath
+  basePath = basePath.endsWith("/") ? basePath.slice(0, -1) : basePath;
 
-    return (
-        <AuthUIContext.Provider
-            value={{
-                authClient,
-                avatarExtension,
-                avatarSize: avatarSize || (uploadAvatar ? 256 : 128),
-                basePath: basePath === "/" ? "" : basePath,
-                baseURL,
-                redirectTo,
-                changeEmail,
-                credentials,
-                forgotPassword,
-                freshAge,
-                hooks,
-                mutators,
-                nameRequired,
-                settingsFields,
-                signUp,
-                signUpFields,
-                toast,
-                navigate: navigate || defaultNavigate,
-                replace: replace || navigate || defaultReplace,
-                viewPaths,
-                uploadAvatar,
-                Link,
-                ...props
-            }}
-        >
-            {children}
-        </AuthUIContext.Provider>
-    )
-}
+  return (
+    <AuthUIContext.Provider
+      value={{
+        authClient,
+        avatarExtension,
+        avatarSize: avatarSize || (uploadAvatar ? 256 : 128),
+        basePath: basePath === "/" ? "" : basePath,
+        baseURL,
+        redirectTo,
+        changeEmail,
+        credentials,
+        forgotPassword,
+        freshAge,
+        hooks,
+        mutators,
+        nameRequired,
+        settingsFields,
+        signUp,
+        signUpFields,
+        toast,
+        navigate: navigate || defaultNavigate,
+        replace: replace || navigate || defaultReplace,
+        viewPaths,
+        uploadAvatar,
+        Link,
+        ...props,
+      }}
+    >
+      {children}
+    </AuthUIContext.Provider>
+  );
+};
