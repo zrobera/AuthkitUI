@@ -1,4 +1,7 @@
 export * from "./components/auth-loading"
+export * from "./components/admin/admin-page"
+export * from "./components/admin/create-user-dialog"
+export * from "./components/admin/user-action-menu"
 export * from "./lib/auth-ui-provider"
 export * from "./lib/auth-view-paths"
 export * from "./lib/social-providers"

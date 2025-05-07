@@ -440,7 +440,64 @@ export const authLocalization = {
     invalidPassword: "Invalid password",
 
     /** @default "Password too short" */
-    passwordTooShort: "Password too short"
+    passwordTooShort: "Password too short",
+
+    // Admin-related messages
+    /** @default "Admin" */
+    admin: "Admin",
+
+    /** @default "Users" */
+    users: "Users",
+
+    /** @default "Create User" */
+    createUser: "Create User",
+
+    /** @default "Creating..." */
+    creatingUser: "Creating...",
+
+    /** @default "User created successfully" */
+    userCreatedSuccess: "User created successfully",
+
+    /** @default "Failed to create user" */
+    userCreatedError: "Failed to create user. Please try again.",
+
+    // Keep the existing nameRequired property as it's used elsewhere
+
+    /** @default "Name is required for admin user" */
+    adminNameRequired: "Name is required",
+
+    /** @default "Email is required for admin user" */
+    adminEmailRequired: "Email is required",
+
+    /** @default "Invalid email address for admin user" */
+    adminEmailInvalid: "Invalid email address",
+
+    /** @default "Password must be at least 8 characters" */
+    passwordMinLength: "Password must be at least 8 characters",
+
+    /** @default "Role is required" */
+    adminRoleRequired: "Role is required",
+
+    /** @default "User banned successfully" */
+    userBannedSuccess: "User has been banned successfully",
+
+    /** @default "Failed to ban user" */
+    userBannedError: "Failed to ban user. Please try again.",
+
+    /** @default "User unbanned successfully" */
+    userUnbannedSuccess: "User has been unbanned successfully",
+
+    /** @default "Failed to unban user" */
+    userUnbannedError: "Failed to unban user. Please try again.",
+
+    /** @default "User removed successfully" */
+    userRemovedSuccess: "User has been removed successfully",
+
+    /** @default "Failed to remove user" */
+    userRemovedError: "Failed to remove user. Please try again.",
+
+    /** @default "Failed to fetch users" */
+    fetchUsersError: "Failed to fetch users. Please try again."
 }
 
 export type AuthLocalization = Partial<typeof authLocalization>

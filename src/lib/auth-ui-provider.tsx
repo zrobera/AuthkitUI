@@ -172,6 +172,11 @@ export type AuthUIContextType = {
      */
     signInSocial?: (params: Parameters<AuthClient["signIn"]["social"]>[0]) => Promise<unknown>
     toast: RenderToast
+    /**
+     * Enable or disable Username support
+     * @default false
+     */
+    username?: boolean
     viewPaths: AuthViewPaths
     /**
      * Navigate to a new URL
