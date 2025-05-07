@@ -1,5 +1,4 @@
 import { defineConfig } from "tsup"
-import { preserveDirectives } from "esbuild-plugin-preserve-directives"
 
 export default defineConfig({
   entry: ["src/index.ts", "src/server.ts"],
@@ -9,7 +8,6 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   treeshake: true,
-  esbuildPlugins: [preserveDirectives()],
   esbuildOptions(options) {
     options.banner = {
       js: '"use client";',

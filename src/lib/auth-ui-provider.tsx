@@ -44,11 +44,6 @@ export type AuthUIContextType = {
      */
     additionalFields?: AdditionalFields
     /**
-     * Enable or disable Avatar support
-     * @default false
-     */
-    avatar?: boolean
-    /**
      * File extension for Avatar uploads
      * @default "png"
      */
@@ -116,11 +111,6 @@ export type AuthUIContextType = {
      */
     hooks: AuthHooks
     /**
-     * Enable or disable Magic Link support
-     * @default false
-     */
-    magicLink?: boolean
-    /**
      * Enable or disable Email OTP support
      * @default false
      */
@@ -147,11 +137,6 @@ export type AuthUIContextType = {
      * @default false
      */
     optimistic?: boolean
-    /**
-     * Enable or disable Passkey support
-     * @default false
-     */
-    passkey?: boolean
     /**
      * Array of Social Providers to enable
      * @remarks `SocialProvider[]`
@@ -186,16 +171,6 @@ export type AuthUIContextType = {
      */
     signInSocial?: (params: Parameters<AuthClient["signIn"]["social"]>[0]) => Promise<unknown>
     toast: RenderToast
-    /**
-     * Enable or disable two-factor authentication support
-     * @default undefined
-     */
-    twoFactor?: ("otp" | "totp")[]
-    /**
-     * Enable or disable Username support
-     * @default false
-     */
-    username?: boolean
     viewPaths: AuthViewPaths
     /**
      * Navigate to a new URL
