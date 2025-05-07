@@ -1,5 +1,5 @@
-import { defineConfig } from "tsup"
-import { preserveDirectives } from "esbuild-plugin-preserve-directives"
+import { defineConfig } from "tsup";
+// import { preserveDirectivesPlugin } from "esbuild-plugin-preserve-directives";
 
 export default defineConfig({
   entry: ["src/index.ts", "src/server.ts"],
@@ -9,10 +9,10 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   treeshake: true,
-  esbuildPlugins: [preserveDirectives()],
+  // esbuildPlugins: [preserveDirectivesPlugin()],
   esbuildOptions(options) {
     options.banner = {
       js: '"use client";',
-    }
+    };
   },
-})
+});
