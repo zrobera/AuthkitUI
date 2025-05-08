@@ -8,7 +8,10 @@ import * as z from "zod";
 
 import { useIsHydrated } from "../../../hooks/use-hydrated";
 import { useOnSuccessTransition } from "../../../hooks/use-success-transition";
-import { authLocalization, type AuthLocalization } from "../../../lib/auth-localization";
+import {
+  authLocalization,
+  type AuthLocalization,
+} from "../../../lib/auth-localization";
 import { AuthUIContext } from "../../../lib/auth-ui-provider";
 import { cn, getLocalizedError, isValidEmail } from "../../../lib/utils";
 import type { AuthClient } from "../../../types/auth-client";
@@ -106,7 +109,7 @@ export function SignInForm({
       let response: Record<string, unknown> = {};
 
       if (usernameEnabled && !isValidEmail(email)) {
-        response = await (authClient as AuthClient).signIn.username({
+        response = await (authClient as any).signIn.username({
           username: email,
           password,
           rememberMe,

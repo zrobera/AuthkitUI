@@ -14,7 +14,6 @@ import {
 } from "../../../lib/auth-localization";
 import { AuthUIContext } from "../../../lib/auth-ui-provider";
 import { cn, getLocalizedError, getSearchParam } from "../../../lib/utils";
-import type { AuthClient } from "../../../types/auth-client";
 import { PasswordInput } from "../password-input";
 import { Button } from "../../ui/button";
 import { Checkbox } from "../../ui/checkbox";
@@ -239,7 +238,7 @@ export function SignUpForm({
         }
       }
 
-      const data = await (authClient as AuthClient).signUp.email({
+      const data = await authClient.signUp.email({
         email,
         password,
         name: name || "",

@@ -1,38 +1,26 @@
 import type {
-    anonymousClient,
-    emailOTPClient,
-    genericOAuthClient,
-    magicLinkClient,
-    oneTapClient,
-    passkeyClient,
-    twoFactorClient,
-    usernameClient
-} from "auth-kit/client/plugins"
-import type { createAuthClient } from "auth-kit/react"
+  adminClient,
+  organizationClient,
+  twoFactorClient,
+  usernameClient,
+} from "better-auth/client/plugins";
+import type { createAuthClient } from "better-auth/react";
 
-type PasskeyClientPlugin = ReturnType<typeof passkeyClient>
-type OneTapClientPlugin = ReturnType<typeof oneTapClient>
-type GenericOAuthClientPlugin = ReturnType<typeof genericOAuthClient>
-type AnonymousClientPlugin = ReturnType<typeof anonymousClient>
-type UsernameClientPlugin = ReturnType<typeof usernameClient>
-type MagicLinkClientPlugin = ReturnType<typeof magicLinkClient>
-type EmailOTPClientPlugin = ReturnType<typeof emailOTPClient>
-type TwoFactorClientPlugin = ReturnType<typeof twoFactorClient>
+type UsernameClientPlugin = ReturnType<typeof usernameClient>;
+type TwoFactorClientPlugin = ReturnType<typeof twoFactorClient>;
+type AdminClientPlugin = ReturnType<typeof adminClient>;
+type OrganizationClientPlugin = ReturnType<typeof organizationClient>;
 
 export type AuthClient = ReturnType<
-    typeof createAuthClient<{
-        plugins: [
-            PasskeyClientPlugin,
-            OneTapClientPlugin,
-            GenericOAuthClientPlugin,
-            AnonymousClientPlugin,
-            UsernameClientPlugin,
-            MagicLinkClientPlugin,
-            EmailOTPClientPlugin,
-            TwoFactorClientPlugin
-        ]
-    }>
->
+  typeof createAuthClient<{
+    plugins: [
+      AdminClientPlugin,
+      UsernameClientPlugin,
+      TwoFactorClientPlugin,
+      OrganizationClientPlugin
+    ];
+  }>
+>;
 
-export type Session = AuthClient["$Infer"]["Session"]["session"]
-export type User = AuthClient["$Infer"]["Session"]["user"]
+export type Session = AuthClient["$Infer"]["Session"]["session"];
+export type User = AuthClient["$Infer"]["Session"]["user"];
