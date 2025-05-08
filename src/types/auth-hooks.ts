@@ -1,4 +1,4 @@
-import type { User as AnyUser } from "auth-kit"
+import type { User as AnyUser } from "better-auth"
 import type { Session, User } from "./auth-client"
 import type { FetchError } from "./fetch-error"
 

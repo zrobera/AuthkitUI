@@ -111,7 +111,6 @@ export function AuthCard({
       <Loader2 className="animate-spin" />
     ) : (
       <SettingsCards
-        localization={localization}
         className={cn(className)}
         classNames={classNames?.settings}
       />
