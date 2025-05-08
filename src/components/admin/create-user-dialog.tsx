@@ -82,7 +82,7 @@ export function CreateUserDialog({
         ? values.role.split(",").map(r => r.trim()) 
         : values.role
         
-      await authClient.admin.createUser({
+      await (authClient as any).admin.createUser({
         name: values.name,
         email: values.email,
         password: values.password,

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Plug & play shadcn/ui components for better-auth with Next.js integration",
   "scripts": {
-    "build": "tsup --clean --dts",
-    "dev": "tsc-watch",
+    "build": "node init && tsup --clean --dts",
+    "dev": "node init && tsc-watch",
     "prepublishOnly": "rm -rf dist && turbo build"
   },
   "type": "module",
@@ -108,6 +108,8 @@
   },
   "packageManager": "pnpm@10.9.0",
   "dependencies": {
-    "better-auth": "^1.2.7"
+    "better-auth": "^1.2.7",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^3.3.2"
   }
 }
