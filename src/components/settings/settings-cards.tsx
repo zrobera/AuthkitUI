@@ -162,7 +162,6 @@ export function SettingsCards({ className, classNames }: SettingsCardsProps) {
                             accounts={accounts}
                             classNames={classNames?.card}
                             isPending={accountsPending}
-                            refetch={refetchAccounts}
                             skipHook
                         />
                     )}

@@ -18,16 +18,14 @@ export interface ProvidersCardProps {
     accounts?: { accountId: string; provider: string }[] | null
     isPending?: boolean
     skipHook?: boolean
-    refetch?: () => Promise<void>
 }
 
 export function ProvidersCard({
     className,
     classNames,
-    accounts,
     isPending,
     skipHook,
-    refetch
+    accounts
 }: ProvidersCardProps) {
     const {
         hooks: { useListAccounts },
@@ -40,7 +38,6 @@ export function ProvidersCard({
         const result = useListAccounts()
         accounts = result.data
         isPending = result.isPending
-        refetch = result.refetch
     }
 
     return (
@@ -61,15 +58,13 @@ export function ProvidersCard({
                                 (socialProvider) => socialProvider.provider === provider
                             )
 
-                            if (!socialProvider) return null
+                            if (!socialProvider || !accounts?.find((acc) => acc.provider === provider)) return null
 
                             return (
                                 <ProviderCell
                                     key={provider}
                                     classNames={classNames}
-                                    account={accounts?.find((acc) => acc.provider === provider)}
                                     provider={socialProvider}
-                                    refetch={refetch}
                                 />
                             )
                         })}
