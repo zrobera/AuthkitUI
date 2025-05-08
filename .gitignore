@@ -26,9 +26,10 @@ yarn-error.log*
 
 # IDE
 .idea
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
 
 # Turbo
 .turbo
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore

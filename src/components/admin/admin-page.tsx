@@ -100,7 +100,7 @@ export function AdminPage({
         query.filterValue = filterRole
       }
 
-      const response = await authClient.admin.listUsers({ query })
+      const response = await (authClient as any).admin.listUsers({ query })
       
       // Map the response to our User type
       const formattedUsers = response.users.map((user: any) => ({
@@ -152,7 +152,7 @@ export function AdminPage({
 
   const handleBanUser = async (userId: string) => {
     try {
-      await authClient.admin.banUser({ userId })
+      await (authClient as any).admin.banUser({ userId })
       renderToast({
         variant: "success",
         message: authLocalization.userBannedSuccess,
@@ -169,7 +169,7 @@ export function AdminPage({
 
   const handleUnbanUser = async (userId: string) => {
     try {
-      await authClient.admin.unbanUser({ userId })
+      await (authClient as any).admin.unbanUser({ userId })
       renderToast({
         variant: "success",
         message: authLocalization.userUnbannedSuccess,
@@ -186,7 +186,7 @@ export function AdminPage({
 
   const handleRemoveUser = async (userId: string) => {
     try {
-      await authClient.admin.removeUser({ userId })
+      await (authClient as any).admin.removeUser({ userId })
       renderToast({
         variant: "success",
         message: authLocalization.userRemovedSuccess,
